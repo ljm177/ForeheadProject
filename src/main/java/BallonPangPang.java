@@ -8,7 +8,7 @@ import javax.swing.border.*;
 
 public class BallonPangPang {
     public static void main(String[] args) {
-
+        new Login();
     }
 }
 class Login extends JFrame implements ActionListener {
