@@ -56,6 +56,27 @@ class Login extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+        if (o == btLogin) {
+            String name = tfName.getText();
+            JOptionPane.showMessageDialog(btReset, name + "님 로그인을 환영합니다.");
+            try {
+                FileWriter fw = new FileWriter("ranking.txt", true);
+                BufferedWriter bf = new BufferedWriter(fw);
+                bf.write(tfName.getText() + ":");
+                bf.close();
+                tfName.setText("");
+            } catch (Exception aa) {
+                //System.out.println(aa);
+            }
+            new BallonPangPang();
 
+        } else if (o == btReset) {
+            tfName.setText(" ");
+            tfName.requestFocus();
+        } else {
+
+            System.exit(0); // exit 누르면 종료
+        }
     }
 }
