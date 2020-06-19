@@ -1,4 +1,7 @@
+import java.util.Vector;
+
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 class GameManager extends JPanel {
 	int money = 300;
