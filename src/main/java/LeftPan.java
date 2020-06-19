@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -23,17 +24,17 @@ class LeftPan extends JPanel {
 		
 		towerPan = new JPanel();
 		towerPan.setBorder(new TitledBorder(""));
-		AnimalTower normalTw = new Bear(gm);
-		AnimalTower fireTw = new Panda(gm);
-		AnimalTower iceTw = new Frog(gm);
-		AnimalTower airTw = new Chicken(gm);
-		AnimalTower poisonTw = new Pig(gm);
+		//AnimalTower normalTw = new Bear(gm);
+		//AnimalTower fireTw = new Panda(gm);
+		//AnimalTower iceTw = new Frog(gm);
+		//AnimalTower airTw = new Chicken(gm);
+		//AnimalTower poisonTw = new Pig(gm);
 		
-		towerPan.add(normalTw);
-		towerPan.add(fireTw);
-		towerPan.add(iceTw);
-		towerPan.add(airTw);
-		towerPan.add(poisonTw);
+		//towerPan.add(normalTw);
+		//towerPan.add(fireTw);
+		//towerPan.add(iceTw);
+		//towerPan.add(airTw);
+		//towerPan.add(poisonTw);
 
 		add(btnPan);
 		add(towerPan);
