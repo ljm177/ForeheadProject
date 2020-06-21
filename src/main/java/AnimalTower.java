@@ -22,7 +22,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
     int attact;
     int range;
     int speed;
-    //Ballon targetUnit;
+    Ballon targetUnit;
     String attactType;
     int cost;
     Vector<Land> searchLands;
@@ -79,9 +79,9 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         if (ev.getSource() == buyBtn) {
             //gm.buyTower(name, cost);
         }
-//        if (targetUnit != null) {
-//            potan.shootting();
-//        }
+        if (targetUnit != null) {
+            potan.shootting();
+        }
     }
 
     public String getAttactType() {
@@ -134,28 +134,28 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         return positionJ;
     }
 
-//    public void rangeCal(Ballon b) { //사정거리 계산 메소드
-//        if (targetUnit == null) {
-//            targetUnit = b; //타겟 유닛으로 설정 후
-//            attack.start(); //공격 스레드 시작
-//        } else if (targetUnit == b) {
-//            turn(b.getX(), b.getY());
-//        } else {
-//        }
-//    }
+    public void rangeCal(Ballon b) { //사정거리 계산 메소드
+        if (targetUnit == null) {
+            targetUnit = b; //타겟 유닛으로 설정 후
+            attack.start(); //공격 스레드 시작
+        } else if (targetUnit == b) {
+            turn(b.getX(), b.getY());
+        } else {
+        }
+    }
 
-//    public void lostUnit(Ballon b) {
-//        if (b == targetUnit) {
-//            targetUnit = null; //타겟 유닛 null
-//        }
-//    }
-//
-//    public void deadTarget(Ballon b) {
-//        if (targetUnit == b) {
-//            targetUnit = null;
-//            attack.stop();
-//        }
-//    }
+    public void lostUnit(Ballon b) {
+        if (b == targetUnit) {
+            targetUnit = null; //타겟 유닛 null
+        }
+    }
+
+    public void deadTarget(Ballon b) {
+        if (targetUnit == b) {
+            targetUnit = null;
+            attack.stop();
+        }
+    }
 
     public void turn(int mx, int my) {
         mouseX = mx;
@@ -236,61 +236,61 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         }
 
         public void shootting() {
-//            if (targetUnit != null){
-//                setBounds(ptX0, ptY0, 5, 5);
-//                ptX = ptX0;
-//                ptY = ptY0;
-//                setVisible(true);
-//                targetX = targetUnit.getX();
-//                targetY = targetUnit.getY();
-//
-//                if (targetX > ptX)
-//                    upDownX = "up";
-//                else
-//                    upDownX = "down";
-//                if (targetY > ptY)
-//                    upDownY = "up";
-//                else
-//                    upDownY = "down";
-//
-//                timer.start();
-//            }
+            if (targetUnit != null){
+                setBounds(ptX0, ptY0, 5, 5);
+                ptX = ptX0;
+                ptY = ptY0;
+                setVisible(true);
+                targetX = targetUnit.getX();
+                targetY = targetUnit.getY();
+
+                if (targetX > ptX)
+                    upDownX = "up";
+                else
+                    upDownX = "down";
+                if (targetY > ptY)
+                    upDownY = "up";
+                else
+                    upDownY = "down";
+
+                timer.start();
+            }
         }
 
         public void actionPerformed(ActionEvent ev) {
             boolean ptXStop = false;
             boolean ptYStop = false;
-//            if (targetUnit == null){
-//                timer.stop();
-//                setVisible(false);
-//            } else {
-//                if ("up".equals(upDownX)) {
-//                    ptX += 20;
-//                    if (targetX < ptX){
-//                        ptX = targetUnit.getX();
-//                        ptXStop = true;
-//                    }
-//                } else if ("down".equals(upDownX)) {
-//                    ptX -= 20;
-//                    if (targetX > ptX) {
-//                        ptX = targetUnit.getX();
-//                        ptXStop = true;
-//                    }
-//                }
-//
-//                if ("up".equals(upDownY)) {
-//                    ptY += 20;
-//                    if (targetY < ptY) {
-//                        ptY = targetUnit.getY();
-//                        ptYStop = true;
-//                    }
-//                } else if ("down".equals(upDownY)) {
-//                    ptY -= 20;
-//                    if (targetY > ptY) {
-//                        ptY = targetUnit.getY();
-//                        ptYStop = true;
-//                    }
-//                }
+            if (targetUnit == null){
+                timer.stop();
+                setVisible(false);
+            } else {
+                if ("up".equals(upDownX)) {
+                    ptX += 20;
+                    if (targetX < ptX){
+                        ptX = targetUnit.getX();
+                        ptXStop = true;
+                    }
+                } else if ("down".equals(upDownX)) {
+                    ptX -= 20;
+                    if (targetX > ptX) {
+                        ptX = targetUnit.getX();
+                        ptXStop = true;
+                    }
+                }
+
+                if ("up".equals(upDownY)) {
+                    ptY += 20;
+                    if (targetY < ptY) {
+                        ptY = targetUnit.getY();
+                        ptYStop = true;
+                    }
+                } else if ("down".equals(upDownY)) {
+                    ptY -= 20;
+                    if (targetY > ptY) {
+                        ptY = targetUnit.getY();
+                        ptYStop = true;
+                    }
+                }
 
                 setBounds(ptX, ptY, 5, 5);
 
@@ -301,12 +301,12 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
                     ptX = ptX0;
                     ptY = ptY0;
                 }
-//            }
+            }
         }
     }
 
     public void Hit() {
-        //targetUnit.damageUnit(attact, Color.black, false);
+        targetUnit.damageUnit(attact, Color.black, false);
     }
 }
 
