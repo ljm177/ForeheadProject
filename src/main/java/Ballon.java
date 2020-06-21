@@ -125,20 +125,20 @@ public class Ballon extends Canvas implements ActionListener, MouseListener {
 
     public void damageUnit(int d, Color c, boolean range) {
 
-//        if (range) {
-//            Vector<Ballon> units = currentLand.getUnitVec();
-//            int i = currentLand.getY() / 30;
-//            int j = currentLand.getX() / 30;
-//            if (i - 1 > -1)
-//                land[i - 1][j].rangeAttack(d, c, false);
-//            if (j - 1 > -1)
-//                land[i][j - 1].rangeAttack(d, c, false);
-//            land[i][j].rangeAttack(d, c, false);
-//            if (j + 1 < 15)
-//                land[i][j + 1].rangeAttack(d, c, false);
-//            if (i + 1 < 15)
-//                land[i + 1][j].rangeAttack(d, c, false);
-//        }
+        if (range) {
+            Vector<Ballon> units = currentLand.getUnitVec();
+            int i = currentLand.getY() / 30;
+            int j = currentLand.getX() / 30;
+            if (i - 1 > -1)
+                land[i - 1][j].rangeAttack(d, c, false);
+            if (j - 1 > -1)
+                land[i][j - 1].rangeAttack(d, c, false);
+            land[i][j].rangeAttack(d, c, false);
+            if (j + 1 < 15)
+                land[i][j + 1].rangeAttack(d, c, false);
+            if (i + 1 < 15)
+                land[i + 1][j].rangeAttack(d, c, false);
+        }
 
         damageColor = c;
         life = life - d;
@@ -184,24 +184,24 @@ public class Ballon extends Canvas implements ActionListener, MouseListener {
 
         int imsiX = x / 30;
         int imsiY = y / 30;
-//        if (currentLand != land[imsiY][imsiX]) {
-//            if (currentLand != null)
-//                currentLand.removeUnitVec(this);	//유닛을 지우고 타워의 타겟유닛을 null
-//            currentLand = land[imsiY][imsiX];
-//            currentLand.addUnitVec(this);
-//        }
-//        aimTower(currentLand.getTower());
-//
-//        if (xx && yy) {
-//            wayCount++;
-//
-//            if (wayCount == 8) {
-//                gm.exitUnit();
-//                timer.stop();
-//                currentLand.remove(this);
-//                dead();
-//            }
-//        }
+        if (currentLand != land[imsiY][imsiX]) {
+            if (currentLand != null)
+                currentLand.removeUnitVec(this);	//유닛을 지우고 타워의 타겟유닛을 null
+            currentLand = land[imsiY][imsiX];
+            currentLand.addUnitVec(this);
+        }
+        aimTower(currentLand.getTower());
+
+        if (xx && yy) {
+            wayCount++;
+
+            if (wayCount == 8) {
+                //gm.exitUnit();
+                timer.stop();
+                currentLand.remove(this);
+                dead();
+            }
+        }
     }
 
     public void turn() {
@@ -212,23 +212,23 @@ public class Ballon extends Canvas implements ActionListener, MouseListener {
     }
 
     public void aimTower(Vector<AnimalTower> towerVec) {
-//        for (int i = 0; i < towerVec.size(); i++) {
-//            AnimalTower t = towerVec.get(i);
-//            if (t.getAttactType().equals("A+B"))
-//                t.rangeCal(this);
-//            else if (type.equals(t.getAttactType()))
-//                t.rangeCal(this);
-//        }
+        for (int i = 0; i < towerVec.size(); i++) {
+            AnimalTower t = towerVec.get(i);
+            if (t.getAttactType().equals("A+B"))
+                t.rangeCal(this);
+            else if (type.equals(t.getAttactType()))
+                t.rangeCal(this);
+        }
     }
 
     public void dead() {
         timer.stop();
-//        gm.deadUnit(this);
-//        Vector<AnimalTower> tv = currentLand.getTower();
-//        for (int i = 0; i < tv.size(); i++) {
-//            AnimalTower t = tv.get(i);
-//            t.deadTarget(this);
-//        }
+        //gm.deadUnit(this);
+        Vector<AnimalTower> tv = currentLand.getTower();
+        for (int i = 0; i < tv.size(); i++) {
+            AnimalTower t = tv.get(i);
+            t.deadTarget(this);
+        }
         lifeJL.setText("life : " + String.valueOf(0));	//죽으면 풍선의 목숨은 0으로
     }
 

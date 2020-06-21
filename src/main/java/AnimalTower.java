@@ -109,10 +109,10 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
 
         for (int i = startI; i < endI + 1; i++) {
             for (int j = startJ; j < endJ + 1; j++) {
-//                if (land[i][j].getType() == 1) {
-//                    searchLands.add(land[i][j]);
-//                    //land[i][j].addTowerVec(this); //타워벡터에 새로운 타워 추가 그것을 land에 추가,,
-//                }
+                if (land[i][j].getType() == 1) {
+                    searchLands.add(land[i][j]);
+                    //land[i][j].addTowerVec(this); //타워벡터에 새로운 타워 추가 그것을 land에 추가,,
+                }
             }
         }
     }
