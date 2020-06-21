@@ -3,19 +3,19 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-class RightPan extends JPanel {
+public class RightPan extends JPanel {
 	Ground groundPan;
-	
-	RightPan(Ground gp) {
+
+	public RightPan(Ground gp) {
 		groundPan = gp;
-		launchLeftPan();
+		launchRightPan();
 	}
 
-	public void launchLeftPan() {
-		setBounds(230,60,500,450);
+	public void launchRightPan() {
+		setBounds(230, 60, 500, 450);	//setBounds(x, y, w, h)
 		setBackground(Color.WHITE);
 		setLayout(null);
 		setBorder(new TitledBorder(""));
 		add(groundPan);
-	}	
+	}
 }
