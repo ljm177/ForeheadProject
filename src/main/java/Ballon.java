@@ -35,7 +35,7 @@ public class Ballon extends Canvas implements ActionListener, MouseListener {
 
     Timer timer;
 
-    Ballon(int way, Land lands[][], GameManager gm, String n, int l, int s, String t, int size) {
+    public Ballon(int way, Land lands[][], GameManager gm, String n, int l, int s, String t, int size) {
         life = l;
         this.speed = s;
         name = n;
@@ -196,7 +196,7 @@ public class Ballon extends Canvas implements ActionListener, MouseListener {
             wayCount++;
 
             if (wayCount == 8) {
-                //gm.exitUnit();
+                gm.exitUnit();
                 timer.stop();
                 currentLand.remove(this);
                 dead();
@@ -223,7 +223,7 @@ public class Ballon extends Canvas implements ActionListener, MouseListener {
 
     public void dead() {
         timer.stop();
-        //gm.deadUnit(this);
+        gm.deadUnit(this);
         Vector<AnimalTower> tv = currentLand.getTower();
         for (int i = 0; i < tv.size(); i++) {
             AnimalTower t = tv.get(i);
@@ -248,8 +248,8 @@ public class Ballon extends Canvas implements ActionListener, MouseListener {
 
     public void mousePressed(MouseEvent e) {
         launchInforPan();
-//        gm.showInfor(inforPan);
-//        GameManager.select = e.getComponent();
+        gm.showInfor(inforPan);
+        GameManager.select = e.getComponent();
     }
     public void mouseClicked(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}

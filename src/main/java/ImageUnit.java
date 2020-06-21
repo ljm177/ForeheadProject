@@ -5,7 +5,7 @@ public class ImageUnit extends Ballon {
     int moveCount;
     Toolkit toolkit;
 
-    ImageUnit(int way, Land land[][], GameManager gm, String name, int level, String type) {
+    public ImageUnit(int way, Land land[][], GameManager gm, String name, int level, String type) {
         super(way, land, gm, name, 20 * level, 100, type, 20);
         toolkit = Toolkit.getDefaultToolkit();
         img = toolkit.getImage("./images/cloudroad.gif");
@@ -18,10 +18,10 @@ public class ImageUnit extends Ballon {
         }
 
         g.drawImage(img, 0, 0, 20, 20, this);
-//        if (GameManager.select == this) {
-//            g.setColor(Color.blue);
-//            g.fillRect(1, 1, 18, 18);
-//        }
+        if (GameManager.select == this) {
+            g.setColor(Color.blue);
+            g.fillRect(1, 1, 18, 18);
+        }
 
         if (moveCount % 3 == 0)
             image = img1;

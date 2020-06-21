@@ -77,7 +77,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
 
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == buyBtn) {
-            //gm.buyTower(name, cost);
+            gm.buyTower(name, cost);
         }
         if (targetUnit != null) {
             potan.shootting();
@@ -111,7 +111,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
             for (int j = startJ; j < endJ + 1; j++) {
                 if (land[i][j].getType() == 1) {
                     searchLands.add(land[i][j]);
-                    //land[i][j].addTowerVec(this); //타워벡터에 새로운 타워 추가 그것을 land에 추가,,
+                    land[i][j].addTowerVec(this); //타워벡터에 새로운 타워 추가 그것을 land에 추가,,
                 }
             }
         }
@@ -173,9 +173,9 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
 
     public void mousePressed(MouseEvent e) { //마우스가 눌려졌을 때 이벤트
         launchInforPan();
-//        gm.showInfor(inforPan);
-//        GameManager.select = e.getComponent();
-//        gm.repaintAllTower();
+        gm.showInfor(inforPan);
+        GameManager.select = e.getComponent();
+        gm.repaintAllTower();
     }
 
     public void mouseClicked(MouseEvent e) {

@@ -3,7 +3,7 @@ import java.util.Vector;
 
 import javax.swing.JPanel;
 
-class Land extends JPanel {
+public class Land extends JPanel {
     int x;
     int y;
     int type = 0;
@@ -11,7 +11,7 @@ class Land extends JPanel {
     Vector<AnimalTower> towerVec;
     Image img;
 
-    Land(int x, int y, int t) {
+    public Land(int x, int y, int t) {
         this.x = x;
         this.y = y;
         type = t;
