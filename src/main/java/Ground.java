@@ -12,12 +12,12 @@ public class Ground extends JPanel implements MouseListener, MouseMotionListener
 	Land land[][] = new Land[10][15];
 	Boolean position[][] = new Boolean[20][30];
 	AnimalTower tower;
-	JLayeredPane landPan;	//깊이를 정해서 붙일 수 있는 팬
-	JPanel mousePan;	//mousePan은 타워의 설치 유무를 따지기 위한 panel
+	JLayeredPane landPan;	//깊이를 정해서 붙일 수 있는 팬
+	JPanel mousePan;	//mousePan은 타워의 설치 유무를 따지기 위한 panel
 	int cost;
 	GameManager gm;
 
-	public Ground(GameManager gameM) {
+	Ground(GameManager gameM) {
 		gm = gameM;
 		super.setBounds(5, 10, 490, 350);
 		super.setLayout(null);
@@ -35,7 +35,7 @@ public class Ground extends JPanel implements MouseListener, MouseMotionListener
 		mousePan = new JPanel();
 		mousePan.setBounds(0, 0, 30, 30);
 		mousePan.setBackground(Color.white);
-		landPan.add(mousePan, new Integer(70));	//0이랑 가까울 수록 깊은거
+		landPan.add(mousePan, new Integer(70));	//0이랑 가까울 수록 깊은거
 		mousePan.setVisible(false);
 
 		landPan.setBorder(new TitledBorder(""));
@@ -76,7 +76,7 @@ public class Ground extends JPanel implements MouseListener, MouseMotionListener
 		cost = buyCost;
 	}
 
-	public void mousePressed(MouseEvent e) { //마우스를 눌렀을 때
+	public void mousePressed(MouseEvent e) { //마우스를 눌렀을 때
 		int pI = e.getY() / 15;
 		int pJ = e.getX() / 15;
 
@@ -110,12 +110,12 @@ public class Ground extends JPanel implements MouseListener, MouseMotionListener
 	public void mouseClicked(MouseEvent e) {
 	}
 
-	public void mouseEntered(MouseEvent e) {	//마우스가 컴포넌트 위에 올라올 때
-		if (tower != null)	//타워가 있을 때
-			mousePan.setVisible(true);	//보이게 (타워가 지을 수 있는 곳과 없는 곳에 색을 나타나게 하기 위한 이벤트)
+	public void mouseEntered(MouseEvent e) {	//마우스가 컴포넌트 위에 올라올 때
+		if (tower != null)	//타워가 있을 때
+			mousePan.setVisible(true);	//보이게 (타워가 지을 수 있는 곳과 없는 곳에 색을 나타나게 하기 위한 이벤트)
 	}
 
-	public void mouseExited(MouseEvent e) {		//컴포넌트 위에 올라온 마우스가 컴포넌트를 벗어날 때
+	public void mouseExited(MouseEvent e) {		//컴포넌트 위에 올라온 마우스가 컴포넌트를 벗어날 때
 		if (tower != null)
 			mousePan.setVisible(false);	//안보이게
 	}
@@ -123,7 +123,7 @@ public class Ground extends JPanel implements MouseListener, MouseMotionListener
 	public void mouseReleased(MouseEvent e) {
 	}
 
-	public void mouseMoved(MouseEvent e) {	//마우스가 컴포넌트 위에서 움직일 때
+	public void mouseMoved(MouseEvent e) {	//마우스가 컴포넌트 위에서 움직일 때
 		if (tower != null) {
 			int x = e.getX() - e.getX() % 15;
 			int y = e.getY() - e.getY() % 15;
@@ -131,9 +131,9 @@ public class Ground extends JPanel implements MouseListener, MouseMotionListener
 
 			int pI = e.getY() / 15;
 			int pJ = e.getX() / 15;
-			if (position[pI][pJ] && position[pI][pJ + 1] && position[pI + 1][pJ] && position[pI + 1][pJ + 1])	//타워를 설치할 수 있는
+			if (position[pI][pJ] && position[pI][pJ + 1] && position[pI + 1][pJ] && position[pI + 1][pJ + 1])	//타워를 설치할 수 있는
 				mousePan.setBackground(Color.white);
-			else	//타워를 설치하지 못하는
+			else	//타워를 설치하지 못하는
 				mousePan.setBackground(Color.red);
 		}
 	}
@@ -150,9 +150,9 @@ public class Ground extends JPanel implements MouseListener, MouseMotionListener
 	}
 
 	public void removeUnit(Ballon b) {
-		landPan.remove(b);	//판에서 지우고
-		b.removeMouseListener(b);	//달아줬던 이벤트 지우고
+		landPan.remove(b);	//판에서 지우고
+		b.removeMouseListener(b);	//달아줬던 이벤트 지우고
 		b = null;	//없애고
-		landPan.repaint();	//다시 그림
+		landPan.repaint();	//다시 그림
 	}
 }
