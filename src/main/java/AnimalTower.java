@@ -1,13 +1,13 @@
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Vector;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import javax.swing.border.*;
+import java.util.*;
+import javax.swing.Timer;
 
-public class AnimalTower extends Canvas implements ActionListener, MouseListener {
+class AnimalTower extends Canvas implements ActionListener, MouseListener {
     String name;
     Graphics2D g2;
     double radian;
@@ -22,6 +22,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
     int attact;
     int range;
     int speed;
+    int upgrade;
     Ballon targetUnit;
     String attactType;
     int cost;
@@ -30,13 +31,13 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
     JButton buyBtn, cancelBtn;
     JButton upgradeBtn;
     JPanel informationPan;
-    boolean bild; // 건설의 여부
+    boolean bild; // 건설의 여부
     String information;
     GameManager gm;
     Timer attack;
     Potan potan;
 
-    public AnimalTower(String n, int a, int r, int s, String atype, int c, String i, GameManager g) {
+    AnimalTower(String n, int a, int r, int s, String atype, int c, String i, GameManager g) {
         name = n;
         attact = a;
         range = r;
@@ -46,7 +47,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         information = i;
         gm = g;
         potan = new Potan();
-        attack = new Timer(speed, this); //speed는 걸리는 밀리초, this는 호출될 이벤트
+        attack = new Timer(speed, this);	//speed는 걸리는 밀리초, this는 호출될 이벤트
         searchLands = new Vector<Land>();
 
         g2 = (Graphics2D) super.getGraphics();
@@ -65,12 +66,20 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         inforPan.add(new JLabel("power : " + String.valueOf(attact)));
         inforPan.add(new JLabel("range : " + String.valueOf(range)));
         inforPan.add(new JLabel("speed : " + String.valueOf(speed)));
-        inforPan.add(new JLabel("cost  : " + String.valueOf(cost)));
+        inforPan.add(new JLabel("grade : " + String.valueOf(upgrade)));
+        inforPan.add(new JLabel("cost  : " + String.valueOf(cost)));
         inforPan.add(new JLabel("information : " + information));
         if (bild == false) {
             buyBtn = new JButton("Buy");
             buyBtn.addActionListener(this);
             inforPan.add(buyBtn);
+        } else {
+            inforPan.add(new JLabel("---upgrade---"));
+            inforPan.add(new JLabel("power : " + String.valueOf(attact * 3)));
+            inforPan.add(new JLabel("cost : " + String.valueOf(cost * 2 + cost / 2)));
+            upgradeBtn = new JButton("upgrade");
+            inforPan.add(upgradeBtn);
+            upgradeBtn.addActionListener(this);
         }
         inforPan.repaint();
     }
@@ -78,6 +87,11 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == buyBtn) {
             gm.buyTower(name, cost);
+        }
+        else if (ev.getSource() == upgradeBtn) {
+            if (upgrade < 6) {
+                gm.upgrade(this, cost * 2 + cost / 2);
+            }
         }
         if (targetUnit != null) {
             potan.shootting();
@@ -91,7 +105,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
     public void paint(Graphics g) {
     }
 
-    public void TowerZone(int h, int w, Land land[][]) { //정찰 영역 
+    public void TowerZone(int h, int w, Land land[][]) {	//정찰 영역
         bild = true;
 
         int startI = h - range;
@@ -111,7 +125,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
             for (int j = startJ; j < endJ + 1; j++) {
                 if (land[i][j].getType() == 1) {
                     searchLands.add(land[i][j]);
-                    land[i][j].addTowerVec(this); //타워벡터에 새로운 타워 추가 그것을 land에 추가,,
+                    land[i][j].addTowerVec(this);	//타워벡터에 새로운 타워 추가 그것을 land에 추가,,
                 }
             }
         }
@@ -134,10 +148,10 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         return positionJ;
     }
 
-    public void rangeCal(Ballon b) { //사정거리 계산 메소드
+    public void rangeCal(Ballon b) {	//사정거리 계산 메소드
         if (targetUnit == null) {
-            targetUnit = b; //타겟 유닛으로 설정 후
-            attack.start(); //공격 스레드 시작
+            targetUnit = b;	//타겟 유닛으로 설정 후
+            attack.start();	//공격 스레드 시작
         } else if (targetUnit == b) {
             turn(b.getX(), b.getY());
         } else {
@@ -146,7 +160,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
 
     public void lostUnit(Ballon b) {
         if (b == targetUnit) {
-            targetUnit = null; //타겟 유닛 null
+            targetUnit = null;	//타겟 유닛 null
         }
     }
 
@@ -157,13 +171,22 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         }
     }
 
+    public void upgrade() {
+        attact = attact * 3;
+        cost = cost * 3;
+        launchInforPan();
+        gm.showInfor(inforPan);
+        upgrade++;
+        repaint();
+    }
+
     public void turn(int mx, int my) {
         mouseX = mx;
         mouseY = my;
         try {
             g2.rotate(-1 * radian);
         } catch (NullPointerException ne) {
-            ne.printStackTrace();
+
         }
         repaint();
         radian = Math.atan2(mouseY - y, mouseX - x);
@@ -171,30 +194,23 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         repaint();
     }
 
-    public void mousePressed(MouseEvent e) { //마우스가 눌려졌을 때 이벤트
+    public void mousePressed(MouseEvent e) {	//마우스가 눌려졌을 때 이벤트
         launchInforPan();
         gm.showInfor(inforPan);
         GameManager.select = e.getComponent();
         gm.repaintAllTower();
     }
 
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
 
     public Potan getPotan() {
         return potan;
     }
 
-    class Potan extends Canvas implements ActionListener {
+    class Potan extends Canvas implements ActionListener { //포탄
         Image img;
         boolean boom;
         Timer timer;
@@ -205,7 +221,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         String upDownX;
         String upDownY;
 
-        public Potan() {
+        Potan() {
             timer = new Timer(80, this);
             setBounds(ptX, ptY, 5, 5);
             setVisible(false);
@@ -236,14 +252,13 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         }
 
         public void shootting() {
-            if (targetUnit != null){
+            if (targetUnit != null) {
                 setBounds(ptX0, ptY0, 5, 5);
                 ptX = ptX0;
                 ptY = ptY0;
                 setVisible(true);
                 targetX = targetUnit.getX();
                 targetY = targetUnit.getY();
-
                 if (targetX > ptX)
                     upDownX = "up";
                 else
@@ -252,7 +267,6 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
                     upDownY = "up";
                 else
                     upDownY = "down";
-
                 timer.start();
             }
         }
@@ -260,13 +274,13 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         public void actionPerformed(ActionEvent ev) {
             boolean ptXStop = false;
             boolean ptYStop = false;
-            if (targetUnit == null){
+            if (targetUnit == null) {
                 timer.stop();
                 setVisible(false);
             } else {
                 if ("up".equals(upDownX)) {
                     ptX += 20;
-                    if (targetX < ptX){
+                    if (targetX < ptX) {
                         ptX = targetUnit.getX();
                         ptXStop = true;
                     }
@@ -294,7 +308,7 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
 
                 setBounds(ptX, ptY, 5, 5);
 
-                if (ptXStop && ptYStop){
+                if (ptXStop && ptYStop) {
                     Hit();
                     setVisible(false);
                     timer.stop();
@@ -309,4 +323,3 @@ public class AnimalTower extends Canvas implements ActionListener, MouseListener
         targetUnit.damageUnit(attact, Color.black, false);
     }
 }
-
